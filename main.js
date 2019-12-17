@@ -1,50 +1,39 @@
-const port = 3000,
-  http = require("http"),
-  httpStatus = require("http-status-codes"),
-  router = require("./router"),
-  contentTypes = require("./contentTypes"),
-  utils = require("./utils");
+const express = require("express"),
+  app = express();
+  app.use(express.static("public"));
 
-router.get("/", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.htm);
-  utils.getFile("views/index.html", res);
-});
+const layouts = require("express-ejs-layouts");
 
-router.get("/courses.html", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.html);
-  utils.getFile("views/courses.html", res);
-});
+const homeController = require("./controllers/homeController"),
+    errorController = require("./controllers/errorController");
 
-router.get("/contact.html", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.html);
-  utils.getFile("views/contact.html", res);
-});
+  app.set("port", process.env.PORT || 3000);
 
-router.post("/", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.html);
-  utils.getFile("views/thanks.html", res);
-});
-
-router.get("/pleasureCraft.png", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.png);
-  utils.getFile("public/images/pleasureCraft.png", res);
-});
-
-// error from utils.js when "public/images/people.jpg"
-router.get("/waves.jpg", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.jpg);
-  utils.getFile("public/images/waves.jpg", res);
-});
+  app.set("view engine", "ejs");
+  app.use(layouts);
 
 
-router.get("/storm.css", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.css);
-  utils.getFile("public/css/storm.css", res);
-});
-router.get("/captain.js", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.js);
-  utils.getFile("public/js/captain.js", res);
-});
 
-http.createServer(router.handle).listen(port);
-console.log(`The server is listening on port number: ${port}`);
+  app.get("/", homeController.welcome);
+  app.get("/courses", homeController.showCourses);
+  app.get("/contact", homeController.showSignUp);
+//without path static files are not available via URL
+  app.get("/storm", homeController.showPhoto);
+  app.post("/contact", homeController.showPostedForm);
+
+  app.use(
+    express.urlencoded({
+      extended: false
+    })
+  );
+
+  app.use(express.json());
+
+  app.use(errorController.pageNotFound);
+  app.use(errorController.internalServerError);
+
+  app.listen(app.get("port"), () => {
+    console.log(
+      `Server running at http://localhost:${app.get("port")}`
+    );
+  });
