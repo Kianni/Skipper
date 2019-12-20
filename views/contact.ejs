@@ -1,10 +1,12 @@
 
     <title>Ota yhteyttä</title>
 
-    <form action="/" method="post">
+    <form action="/subscribe" method="post">
       <label for="name">Name</label>
-      <input type="name" name="name">
+      <input type="name" name="name" placeholder="Name">
       <label for="email">Email</label>
-      <input type="email" name="email">
+      <input type="email" name="email" placeholder="Email">
+      <label for="zipCode">Zip Code</label>
+      <input type="text" pattern="[0-9]{5}" name="zipCode" placeholder="Zip Code">
       <input type="submit" value="Submit">
     </form>

@@ -29,11 +29,3 @@ exports.showPhoto = (req, res) => {
     root: "./"
   });
 };
-
-exports.showSignUp = (req, res) => {
-  res.render("contact");
-};
-
-exports.showPostedForm = (req, res) => {
-  res.render("thanks");
-};
