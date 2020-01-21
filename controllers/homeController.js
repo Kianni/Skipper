@@ -18,12 +18,6 @@ var courses = [
 
 ];
 
-exports.showCourses = (req, res) => {
-  res.render("courses", {
-    offeredCourses: courses
-  });
-};
-
 exports.showPhoto = (req, res) => {
   res.sendFile(`./public/images/waves.jpg`,{
     root: "./"
