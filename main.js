@@ -10,39 +10,43 @@ const express = require("express"),
   router = express.Router(),
   methodOverride = require("method-override");
 
-  mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
-  app.set("view engine", "ejs");
-  app.use(layouts);
+//layouts and ejs-views
+app.set("view engine", "ejs");
+app.use(layouts);
 
-  app.use(
-    express.urlencoded({
-      extended: false
-    })
-  );
-  app.use(express.json());
-
-  app.set("port", process.env.PORT || 3000);
-  app.listen(app.get("port"), () => {
-    console.log(
-      `Server running at http://localhost:${app.get("port")}`
-    );
-  });
-
-  mongoose.connect(
-    "mongodb://localhost:27017/confetti_cuisine",
-    {useNewUrlParser: true});
-
-  const db = mongoose.connection;
-
-  db.once("open", () => {
-    console.log("Successfully connected to MongoDB using Mongoose!")
+//what does this code?
+app.use(
+  express.urlencoded({
+    extended: false
   })
+);
+app.use(express.json());
 
+//connecting to database
+app.set("port", process.env.PORT || 3000);
+app.listen(app.get("port"), () => {
+  console.log(
+    `Server running at http://localhost:${app.get("port")}`
+  );
+});
 
+mongoose.connect(
+  "mongodb://localhost:27017/confetti_cuisine",
+  {useNewUrlParser: true});
+
+const db = mongoose.connection;
+
+db.once("open", () => {
+  console.log("Successfully connected to MongoDB using Mongoose!")
+})
+
+// for paths using router not app
 app.use("/", router);
 app.use(express.static("public"));
 
+// for PUT and UPDATE methods
 router.use(methodOverride("_method", {
   methods: ["POST","GET"]
 }));
@@ -55,6 +59,15 @@ router.get("/subscribers/:id", subscribersController.show, subscribersController
 router.get("/subscribers/:id/edit", subscribersController.edit);
 router.put("/subscribers/:id/update", subscribersController.update, subscribersController.redirectView);
 router.delete("/subscribers/:id/delete", subscribersController.delete, subscribersController.redirectView);
+
+router.get("/users", usersController.index, usersController.indexView);
+router.get("/users/new", usersController.new);
+router.post("/users/create", usersController.create, usersController.redirectView);
+router.get("/users/:id", usersController.show, usersController.showView);
+router.get("/users/:id/edit", usersController.edit);
+router.put("/users/:id/update", usersController.update, usersController.redirectView);
+router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
+
 
   router.get("/", homeController.welcome);
 
