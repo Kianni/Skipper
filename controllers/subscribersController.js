@@ -28,6 +28,11 @@ module.exports = {
   },
   create: (req, res, next) => {
     let subscriberParams = getSubscriberParams(req.body);
+              /*{
+              name: req.body.name,
+              email: req.body.email,
+              zipCode: req.body.zipCode
+            };*/
 
     Subscriber.create(subscriberParams)
       .then(subscriber => {
