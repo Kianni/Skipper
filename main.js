@@ -46,7 +46,11 @@ db.once("open", () => {
 app.use("/", router);
 app.use(express.static("public"));
 
-// for PUT and UPDATE methods
+// for PUT and UPDATE methods?????
+// Почему мы здесь указываем пост и гэт,
+// как аргумент - PUT для /update
+// как аргумент - DELETE для /delete
+//?????????
 router.use(methodOverride("_method", {
   methods: ["POST","GET"]
 }));
@@ -67,6 +71,14 @@ router.get("/users/:id", usersController.show, usersController.showView);
 router.get("/users/:id/edit", usersController.edit);
 router.put("/users/:id/update", usersController.update, usersController.redirectView);
 router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
+
+router.get("/courses", coursesController.index, coursesController.indexView);
+router.get("/courses/new", coursesController.new);
+router.post("/courses/create", coursesController.create, coursesController.redirectView);
+router.get("/courses/:id", coursesController.show, coursesController.showView);
+router.get("/courses/:id/edit", coursesController.edit);
+router.put("/courses/:id/update", coursesController.update, coursesController.redirectView);
+router.delete("/courses/:id/delete", coursesController.delete, coursesController.redirectView);
 
 
   router.get("/", homeController.welcome);

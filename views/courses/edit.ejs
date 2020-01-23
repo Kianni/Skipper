@@ -1,0 +1,30 @@
+<div class="data-form">
+  <!-- почему в главном файле у нас другой адрес: /courses/update -->
+  <!-- почему мы не указываем "вставку" с идентификатором пользователя? -->
+  <form action="<%= `/courses/${course._id}/update?_method=PUT` %>" method="POST">
+    <h2>Update course details:</h2>
+
+    <label for="inputTitle">Title</label>
+    <input type="text" name="title" id="inputTitle"
+    value = "<%= course.title %>"
+    placeholder="Title" autofocus>
+
+    <label for="inputDescription">Description</label>
+    <input type="text" name="description" id="inputDescription"
+    value = "<%= course.description %>"
+    placeholder="Description" required>
+
+    <label for="inputMaxStudents">Max students</label>
+    <input type="number" name="maxStudents" id="inputMaxStudents" pattern="\d*"
+    value = "<%= course.maxStudents %>"
+    placeholder="Max students">
+
+    <label for="inputCost">Cost</label>
+    <input type="number" name="cost" id="inputCost" pattern="\d*"
+    value = "<%= course.cost %>"
+    placeholder="Cost">
+
+    <button type="submit">Update</button>
+  </form>
+
+</div>
