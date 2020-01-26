@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"),
   User = require("../models/user"),
+  passport = require("passport"),
   getUserParams = (body) => {
     return {
       name: {
@@ -7,8 +8,7 @@ const mongoose = require("mongoose"),
         last: body.lastName
             },
       email: body.email,
-      zipCode: body.zipCode,
-      password: body.password
+      zipCode: body.zipCode
     }
   };
 
@@ -17,17 +17,24 @@ const mongoose = require("mongoose"),
       res.render("users/new");
     },
     create: (req, res, next) => {
-      let userParams = getUserParams(req.body);
-      User.create(userParams)
-        .then(user => {
-          res.locals.redirect = "/users";
-          res.locals.user = user;
-          next();
-        })
-        .catch(error => {
-          console.log(`Error saving user ${error}`);
-          next(error);
-        });
+    if (req.skip) {
+      next();
+    };
+    let newUser = new User( getUserParams(req.body) );
+
+    User.register(newUser, req.body.password, (e, user) => {
+      if (user) {
+        req.flash("success", `${user.fullName}'s account created successfully!`);
+        res.locals.redirect = "/users";
+        next();
+      } else {
+        req.flash(
+          "error",
+          `Failed to create user account because: ${e.message}.`);
+          res.locals.redirect = "/users/new";
+        next();
+      }
+    });
     },
     redirectView: (req, res, next) => {
       let redirectPath = res.locals.redirect
@@ -98,7 +105,8 @@ const mongoose = require("mongoose"),
     delete: (req, res, next) => {
       let userId = req.params.id;
       User.findByIdAndRemove(userId)
-      .then(() => {
+      .then((user) => {
+        req.flash("success", `How dare you to delete ${user.fullName}?!`);
         res.locals.redirect = "/users";
         next();
       })
@@ -106,6 +114,58 @@ const mongoose = require("mongoose"),
         console.log(`Error deleting user by ID: ${error.message}`);
         next();
       });
-  }
+  },
+
+  login: (req, res) => {
+    res.render("users/login");
+  },
+
+  logout: (req, res, next) => {
+    req.logout();
+    req.flash("success", "You have been logged out!");
+    res.locals.redirect = "/users";
+    next();
+  },
+
+  validate: (req, res, next) => {
+    req
+      .sanitizeBody("email")
+      .normalizeEmail({
+        all_lowercase: true
+      })
+      .trim();
+    req.check("email", "Email is invalid").isEmail();
+    req
+      .check("zipCode", "Zip code is invalid")
+      .notEmpty()
+      .isInt()
+      .isLength({
+        min: 5,
+        max: 5
+      })
+      .equals(req.body.zipCode);
+    req.check("password", "Password cannot be empty").notEmpty();
+
+    req.getValidationResult().then((error) => {
+      if(!error.isEmpty()) {
+        let messages = error.array().map(e => e.msg);
+        req.skip = true;
+        req.flash("error", messages.join(" and "));
+        res.locals.redirect = "/users/new";
+        next();
+      } else {
+        next();
+      }
+    }).catch(error => {
+      console.log(`Error: ${error}!`);
+    });
+  },
+
+  authenticate: passport.authenticate("local", {
+    failureRedirect: "/users/login",
+    failureFlash: "Failed to login.",
+    successRedirect: "/users",
+    successFlash: "Logged in!"
+  })
 
 }

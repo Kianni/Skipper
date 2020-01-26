@@ -8,9 +8,41 @@ const express = require("express"),
   usersController = require("./controllers/usersController"),
   coursesController = require("./controllers/coursesController"),
   router = express.Router(),
-  methodOverride = require("method-override");
+  methodOverride = require("method-override"),
+  passport = require("passport"),
+  cookieParser = require("cookie-parser"),
+  expressSession = require("express-session"),
+  connectFlash = require("connect-flash"),
+  expressValidator = require("express-validator"),
+  User = require("./models/user");
 
 mongoose.Promise = global.Promise;
+
+// listing 25.4
+router.use(cookieParser("secretCuisine123"));
+router.use(expressSession({
+  secret: "secretCuisine123",
+  cookie: {
+    maxAge: 4000000
+  },
+  resave: false,
+  saveUninitialized: false
+}));
+
+router.use(passport.initialize());
+router.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+router.use(connectFlash());
+
+router.use((req, res, next) => {
+  res.locals.loggedIn = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 //layouts and ejs-views
 app.set("view engine", "ejs");
@@ -23,6 +55,7 @@ app.use(
   })
 );
 app.use(express.json());
+router.use(expressValidator());
 
 //connecting to database
 app.set("port", process.env.PORT || 3000);
@@ -66,7 +99,12 @@ router.delete("/subscribers/:id/delete", subscribersController.delete, subscribe
 
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/new", usersController.new);
-router.post("/users/create", usersController.create, usersController.redirectView);
+router.post("/users/create", usersController.validate, usersController.create, usersController.redirectView);
+
+router.get("/users/login", usersController.login);
+router.post("/users/login", usersController.authenticate);
+router.get("/users/logout", usersController.logout, usersController.redirectView);
+
 router.get("/users/:id", usersController.show, usersController.showView);
 router.get("/users/:id/edit", usersController.edit);
 router.put("/users/:id/update", usersController.update, usersController.redirectView);

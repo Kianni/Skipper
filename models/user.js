@@ -2,6 +2,7 @@ const mongoose = require("mongoose"),
   { Schema } = mongoose,
   Subscriber = require("./subscriber"),
   Course = require("./course"),
+  passportLocalMongoose = require("passport-local-mongoose"),
   userSchema = new Schema({
     name: {
       first: {
@@ -22,10 +23,6 @@ const mongoose = require("mongoose"),
       type: Number,
       min: [10000, "Zip code too short"],
       max: 99999
-    },
-    password: {
-      type: String,
-      required: true
     },
     courses: [
       {
@@ -62,6 +59,10 @@ userSchema.pre("save", function (next){
   } else {
     next();
   }
+});
+
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email"
 });
 
   module.exports = mongoose.model("User",
