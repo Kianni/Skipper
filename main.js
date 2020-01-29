@@ -119,13 +119,13 @@ router.put("/courses/:id/update", coursesController.update, coursesController.re
 router.delete("/courses/:id/delete", coursesController.delete, coursesController.redirectView);
 
 
-  router.get("/", homeController.welcome);
+router.get("/", homeController.welcome);
+router.get("/contact", homeController.contact);
 
 
 
-//without path static files are not available via URL
-  router.get("/storm", homeController.showPhoto);
+
 
 //why use?
-  //router.use(errorController.pageNotFound);
-  //router.use(errorController.internalServerError);
+app.use(errorController.respondNoResourceFound);
+app.use(errorController.respondInternalError);

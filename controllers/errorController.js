@@ -1,15 +1,22 @@
 const httpStatus = require("http-status-codes");
 
-exports.pageNotFound = (req, res) => {
-  let errorCode = httpStatus.NOT_FOUND;
-  res.status(errorCode);
-  res.render("error");
-};
+module.exports = {
+  logErrors: (error, req, res, next) => {
+    console.error(error.stack);
+    next(error);
+  },
 
-exports.internalServerError = (error, req, res, next) => {
-  let errorCode = httpStatus.INTERNAL_SERVER_ERROR;
-  console.log(`ERROR occured: ${error.stack}`);
-  res.status(errorCode);
-  res.send(`${errorCode} | Sorry our app is taking a nap...zzz`);
+  respondNoResourceFound: (req, res) => {
+    let errorCode = httpStatus.NOT_FOUND;
+    // зачем res.status нужен?
+    res.status(errorCode);
+    res.render("error", { error : errorCode });
+  },
 
+  respondInternalError: (error, req, res, next) => {
+    let errorCode = httpStatus.INTERNAL_SERVER_ERROR;
+    console.log(`ERROR occurred: ${error.stack}`);
+    //res.status(errorCode);
+    res.send(`${errorCode} | Sorry, our application is experiencing a problem!`);
+  }
 };

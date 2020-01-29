@@ -1,25 +1,10 @@
-exports.welcome = (req, res) => {
-  res.render("index");
-};
+"use strict";
 
-var courses = [
-  {
-    title: "Sailng in the nigth time",
-    cost: 200
+module.exports = {
+  welcome: (req, res) => {
+    res.render("index");
   },
-  {
-    title: "Motorboat skills",
-    cost: 120
-  },
-  {
-    title: "Man-over-board exercises",
-    cost: 45
-  }
-
-];
-
-exports.showPhoto = (req, res) => {
-  res.sendFile(`./public/images/waves.jpg`,{
-    root: "./"
-  });
+	contact: (req, res) => {
+		res.render("contact");
+	}
 };
