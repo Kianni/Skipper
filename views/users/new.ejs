@@ -1,28 +1,28 @@
 <div class="data-form">
-  <form action="/users/create" method="POST">
-    <h2>Create a new user:</h2>
+  <form class="form-signin" action="/users/create" method="POST">
+    <h2 class="form-signin-heading">Create a new user:</h2>
 
     <label for="inputFirstName">First name</label>
-    <input type="text" name="firstName" id="inputFirstName"
+    <input class="form-control" type="text" name="firstName" id="inputFirstName"
     placeholder="First name" autofocus>
 
     <label for="inputLastName">Last name</label>
-    <input type="text" name="lastName" id="inputLastName"
+    <input class="form-control" type="text" name="lastName" id="inputLastName"
     placeholder="Last name">
 
     <label for="inputEmail">Email address</label>
-    <input type="email" name="email" id="inputEmail"
+    <input class="form-control" type="email" name="email" id="inputEmail"
     placeholder="Email address">
 
     <label for="inputZipCode">Zip Code</label>
-    <input type="text" name="zipCode" id="inputZipCode" pattern="\d*"
+    <input class="form-control" type="text" name="zipCode" id="inputZipCode" pattern="\d*"
     placeholder="Zip Code">
 
     <label for="inputPassword">Password</label>
-    <input type="text" name="password" id="inputPassword" pattern="\d*"
+    <input class="form-control" type="text" name="password" id="inputPassword" pattern="\d*"
     placeholder="Password">
 
-    <button type="submit">Create</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
   </form>
 
 </div>

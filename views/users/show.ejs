@@ -14,3 +14,18 @@
     <td><%= user.zipCode %></td>
   </tr>
 </table>
+
+<div>
+  <a class="button" href="/users">View all users</a>
+</div>
+
+<div>
+  <a class="button" href="<%= `/users/${user._id}/edit`%>">Edit User Details</a>
+</div>
+
+<div>
+  <a class="button" href="<%= `/users/${user._id}/delete?_method=DELETE` %>"
+    onclick="return confirm('Är du säker på...? How dare you?!')">
+    Delete
+  </a>
+</div>

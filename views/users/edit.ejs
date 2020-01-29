@@ -1,33 +1,33 @@
 <div class="data-form">
-  <form method="POST" action="<%=`/users/${user._id}/update?_method=PUT`%>">
-    <h2>Update user details:</h2>
+  <form class="form-signin" method="POST" action="<%=`/users/${user._id}/update?_method=PUT`%>">
+    <h2 class="form-signing-heading">Update user details:</h2>
 
     <label for="inputFirstName">First name</label>
-    <input type="text" name="firstName" id="inputFirstName"
+    <input type="text" name="firstName" id="inputFirstName" class="form-control"
     value="<%= user.firstName %>"
     placeholder="First name" autofocus>
 
     <label for="inputLastName">Last name</label>
-    <input type="text" name="lastName" id="inputLastName"
+    <input type="text" name="lastName" id="inputLastName" class="form-control"
     value="<%= user.lastName %>"
     placeholder="Last name">
 
     <label for="inputEmail">Email address</label>
-    <input type="email" name="email" id="inputEmail"
+    <input type="email" name="email" id="inputEmail" class="form-control"
     value="<%= user.email %>"
     placeholder="Email address" required>
 
     <label for="inputZipCode">Zip Code</label>
-    <input type="text" name="zipCode" id="inputZipCode" pattern="\d*"
+    <input type="text" name="zipCode" id="inputZipCode" pattern="\d*" class="form-control"
     value="<%= user.zipCode %>"
     placeholder="Zip Code">
 
     <label for="inputPassword">Password</label>
-    <input type="text" name="password" id="inputPassword" pattern="\d*"
+    <input type="text" name="password" id="inputPassword" pattern="\d*" class="form-control"
     value="<%= user.password %>"
     placeholder="Password">
 
-    <button type="submit">Update</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
   </form>
 
 </div>

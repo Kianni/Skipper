@@ -1,6 +1,6 @@
-<h1>Course data for course: </h1>
+<h1 class="center">Course data for course: </h1>
 
-<table>
+<table class="table">
   <tr>
     <th>Title: </th>
     <td><%= course.title %></td>
@@ -18,3 +18,18 @@
     <td><%= course.cost %></td>
   </tr>
 </table>
+
+<div>
+  <a class="button" href="/courses">View all courses</a>
+</div>
+
+<div>
+  <a class="button" href="<%= `/courses/${course._id}/edit`%>">Edit Course Details</a>
+</div>
+
+<div>
+  <a class="button" href="<%= `/courses/${course._id}/delete?_method=DELETE` %>"
+    onclick="return confirm('Är du säker på...? How dare you?!')">
+    Delete
+  </a>
+</div>

@@ -1,4 +1,4 @@
-<h1>Subscriber Data for <%= subscriber.name %></h1>
+<h1 class="center">Subscriber Data for <%= subscriber.name %></h1>
 
 <table class="table">
   <tr>
@@ -18,4 +18,18 @@
 <p>
 This subscriber has <%= subscriber.courses.length %> associated course(s)
 </p>
-  
+
+<div>
+  <a class="button" href="/subscribers">View all subscribers</a>
+</div>
+
+<div>
+  <a class="button" href="<%= `/subscribers/${subscriber._id}/edit`%>">Edit Subscriber Details</a>
+</div>
+
+<div>
+  <a class="button" href="<%= `/subscribers/${subscriber._id}/delete?_method=DELETE` %>"
+    onclick="return confirm('Är du säker på...? How dare you?!')">
+    Delete
+  </a>
+</div>

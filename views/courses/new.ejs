@@ -1,24 +1,24 @@
 <div class="data-form">
-  <form action="/courses/create" method="POST">
-    <h2>Create a new course:</h2>
+  <form class="form-signin" action="/courses/create" method="POST">
+    <h2 class="form-signin-heading">Create a new course:</h2>
 
     <label for="inputTitle">Title</label>
-    <input type="text" name="title" id="inputTitle"
+    <input class="form-control" type="text" name="title" id="inputTitle"
     placeholder="Title" autofocus>
 
     <label for="inputDescription">Description</label>
-    <input type="text" name="description" id="inputDescription"
+    <input class="form-control" type="text" name="description" id="inputDescription"
     placeholder="Description" required>
 
     <label for="inputMaxStudents">Max students</label>
-    <input type="number" name="maxStudents" id="inputMaxStudents" pattern="\d*"
+    <input class="form-control" type="number" name="maxStudents" id="inputMaxStudents" pattern="\d*"
     placeholder="Max students">
 
     <label for="inputCost">Cost</label>
-    <input type="number" name="cost" id="inputCost" pattern="\d*"
+    <input class="form-control" type="number" name="cost" id="inputCost" pattern="\d*"
     placeholder="Cost">
 
-    <button type="submit">Create</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
   </form>
 
 </div>

@@ -1,20 +1,20 @@
 <div class="data-form">
-  <form action="/subscribers/create" method="POST">
-    <h2>Create a new subscriber:</h2>
+  <form class="form-signin" action="/subscribers/create" method="POST">
+    <h2 class="form-signin-heading">Create a new subscriber:</h2>
 
     <label for="inputName">Name</label>
-    <input type="text" name="name" id="inputName"
+    <input class="form-control" type="text" name="name" id="inputName"
     placeholder="Name" autofocus>
 
     <label for="inputEmail">Email address</label>
-    <input type="email" name="email" id="inputEmail"
+    <input class="form-control" type="email" name="email" id="inputEmail"
     placeholder="Email address" required>
 
     <label for="inputZipCode">Zip Code</label>
-    <input type="text" name="zipCode" id="inputZipCode" pattern="\d*"
+    <input class="form-control" type="text" name="zipCode" id="inputZipCode" pattern="\d*"
     placeholder="Zip Code" required>
 
-    <button type="submit">Create</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
   </form>
 
 </div>
