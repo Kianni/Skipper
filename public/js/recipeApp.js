@@ -7,12 +7,15 @@ $(document).ready(() => {
       data.courses.forEach(course => {
         $(".modal-body").append(
           `<div>
-						<span class="course-title">
+            <span class="course-title">
 							${course.title}
 						</span>
-						<button class='button ${course.joined ? "joined-button" : "join-button"}' data-id="${course._id}">
+						<button class="${course.joined ? "joined-button" : "join-button"} btn btn-info btn-sm" data-id="${course._id}">
 							${course.joined ? "Joined" : "Join"}
 						</button>
+            <span class="course-cost">
+              $${course.cost}
+            </span>
 						<div class="course-description">
 							${course.description}
 						</div>
