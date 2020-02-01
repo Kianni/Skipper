@@ -1,4 +1,61 @@
 $(document).ready(() => {
+
+  const socket = io();
+
+  $("#chatForm").submit(() => {
+    let text = $("#chat-input").val(),
+      userName = $("#chat-user-name").val(),
+      userId = $("#chat-user-id").val();
+    socket.emit("viesti", {
+      content: text,
+      userName: userName,
+      userId: userId
+    });
+    $("#chat-input").val("");
+    return false;
+  });
+
+  socket.on("viesti", (message) => {
+    displayMessage(message);
+    for (let i=0; i < 2; i++) {
+      $(".chat-icon").fadeOut(200).fadeIn(200);
+    }
+  });
+
+  socket.on("load all messages", data => {
+    data.forEach(message => {
+      displayMessage(message);
+    });
+  });
+
+// херня какая-то.
+// сообщение выводится не только когда пользователь покидает чат, но и
+// каждый раз, когда он меняет вкладку (даже при возврате в чат через @)
+  socket.on("user disconnected", () => {
+    displayMessage({
+      userName: "Notice",
+      content: "User left the chat"
+    });
+  });
+
+  let displayMessage = (message) => {
+    $("#chat").prepend(
+      $("<li>").html(`
+        <strong class="message ${getCurrentUserClass(message.user)}">
+        ${message.userName}
+        </strong>: ${message.content}
+        `)
+      );
+  };
+
+  let getCurrentUserClass = (id) => {
+    let userId = $("#chat-user-id").val();
+    return userId === id ? "current-user": "";
+  };
+
+
+
+
   $("#modal-button").click(() => {
     $(".modal-body").html("");
     $.get("/api/courses", (results = {}) => {

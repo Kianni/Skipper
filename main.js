@@ -79,8 +79,11 @@ app.use(expressValidator());
 
 app.use("/", router);
 
-app.listen(app.get("port"), () => {
+const server = app.listen(app.get("port"), () => {
   console.log(
     `Server running at http://localhost:${app.get("port")}`
   );
-});
+}),
+  io = require("socket.io")(server);
+
+  chatController = require("./controllers/chatController")(io);
